@@ -1,6 +1,7 @@
+<div align="center"><img src="assets/crucible_ui.svg" width="400" alt="Crucible UI Logo" /></div>
+
 # Crucible UI
 
-[![CI](https://github.com/North-Shore-AI/crucible_ui/actions/workflows/ci.yml/badge.svg)](https://github.com/North-Shore-AI/crucible_ui/actions/workflows/ci.yml)
 [![Hex.pm](https://img.shields.io/hexpm/v/crucible_ui.svg)](https://hex.pm/packages/crucible_ui)
 [![Docs](https://img.shields.io/badge/docs-hexpm-blue.svg)](https://hexdocs.pm/crucible_ui)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
