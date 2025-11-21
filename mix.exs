@@ -97,7 +97,7 @@ defmodule CrucibleUI.MixProject do
     [
       name: "crucible_ui",
       files: ~w(lib priv .formatter.exs mix.exs README* LICENSE* CHANGELOG*),
-      licenses: ["Apache-2.0"],
+      licenses: ["MIT"],
       links: %{
         "GitHub" => @source_url,
         "Changelog" => "#{@source_url}/blob/main/CHANGELOG.md"

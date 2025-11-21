@@ -4,7 +4,7 @@
 
 [![Hex.pm](https://img.shields.io/hexpm/v/crucible_ui.svg)](https://hex.pm/packages/crucible_ui)
 [![Docs](https://img.shields.io/badge/docs-hexpm-blue.svg)](https://hexdocs.pm/crucible_ui)
-[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 **Phoenix LiveView Dashboard for ML Reliability Research**
 
@@ -275,14 +275,4 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 
 Copyright 2024 North-Shore-AI
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+Licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
