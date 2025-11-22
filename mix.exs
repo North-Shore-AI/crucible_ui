@@ -76,8 +76,7 @@ defmodule CrucibleUI.MixProject do
       {:bandit, "~> 1.0"},
 
       # Crucible ecosystem
-      {:crucible_framework, "~> 0.1.5"},
-      # {:crucible_telemetry, "~> 0.1.0"},
+      {:crucible_telemetry, "~> 0.1.0"},
 
       # Development & Testing
       {:ex_doc, "~> 0.31", only: :dev, runtime: false},
