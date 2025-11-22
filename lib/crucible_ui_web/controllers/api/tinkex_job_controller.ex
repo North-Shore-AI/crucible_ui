@@ -22,21 +22,21 @@ defmodule CrucibleUIWeb.API.TinkexJobController do
   end
 
   def show(conn, %{"id" => job_id}) do
-    case TinkexRouter.fetch(%{headers: conn.req_headers}, job_id) do
+    case TinkexRouter.fetch(%{params: %{}, headers: conn.req_headers}, job_id) do
       {:ok, resp} -> json(conn, resp)
       {:error, reason} -> {:error, reason}
     end
   end
 
   def cancel(conn, %{"id" => job_id}) do
-    case TinkexRouter.cancel(%{headers: conn.req_headers}, job_id) do
+    case TinkexRouter.cancel(%{params: %{}, headers: conn.req_headers}, job_id) do
       :ok -> conn |> put_status(:accepted) |> json(%{job_id: job_id, status: "canceled"})
       {:error, reason} -> {:error, reason}
     end
   end
 
   def stream(conn, %{"id" => job_id} = params) do
-    with {:ok, stream} <- TinkexRouter.stream(%{headers: conn.req_headers}, job_id) do
+    with {:ok, stream} <- TinkexRouter.stream(%{params: %{}, headers: conn.req_headers}, job_id) do
       timeout_ms = parse_timeout(params["timeout_ms"] || "5000")
 
       conn =
