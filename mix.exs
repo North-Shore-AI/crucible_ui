@@ -76,8 +76,7 @@ defmodule CrucibleUI.MixProject do
       {:bandit, "~> 1.0"},
 
       # Crucible ecosystem
-      {:crucible_framework, path: "../crucible_framework"},
-      # {:tinkex, "~> 0.1.0"},
+      {:crucible_framework, "~> 0.1.5"},
       # {:crucible_telemetry, "~> 0.1.0"},
 
       # Development & Testing
