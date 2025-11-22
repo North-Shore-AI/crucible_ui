@@ -219,6 +219,10 @@ Crucible UI is built on a modern Phoenix LiveView architecture:
 
 For detailed architecture documentation, see [docs/20251121/architecture.md](docs/20251121/architecture.md).
 
+## CNS Overlay
+
+Extension plan and implementation notes live in [docs/20251121/cns_overlay/ui_extension_plan.md](docs/20251121/cns_overlay/ui_extension_plan.md); CNS-specific modules are housed in the sibling `cns_ui` repository.
+
 ## API
 
 Crucible UI exposes REST and WebSocket APIs for programmatic access:

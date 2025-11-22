@@ -41,6 +41,15 @@ defmodule CrucibleUIWeb.Router do
     resources "/models", ModelController, except: [:new, :edit]
   end
 
+  scope "/api/v1", CrucibleUIWeb.API do
+    pipe_through :api
+
+    post "/jobs", TinkexJobController, :create
+    get "/jobs/:id", TinkexJobController, :show
+    get "/jobs/:id/stream", TinkexJobController, :stream
+    post "/jobs/:id/cancel", TinkexJobController, :cancel
+  end
+
   if Application.compile_env(:crucible_ui, :dev_routes) do
     import Phoenix.LiveDashboard.Router
 

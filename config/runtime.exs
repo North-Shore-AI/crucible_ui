@@ -8,6 +8,21 @@ if System.get_env("PHX_SERVER") do
   config :crucible_ui, CrucibleUIWeb.Endpoint, server: true
 end
 
+# Public API auth and runner mode for the Crucible Tinkex overlay
+tokens =
+  System.get_env("CRUCIBLE_TINKEX_API_TOKENS", "dev-token")
+  |> String.split(",", trim: true)
+
+runner_mode =
+  case System.get_env("CRUCIBLE_TINKEX_RUNNER_MODE", "simulate") do
+    "tinkex" -> :tinkex
+    _ -> :simulate
+  end
+
+config :crucible_framework,
+  api_tokens: tokens,
+  runner_mode: runner_mode
+
 if config_env() == :prod do
   database_url =
     System.get_env("DATABASE_URL") ||

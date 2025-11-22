@@ -17,4 +17,18 @@ defmodule CrucibleUIWeb.FallbackController do
     |> put_view(json: CrucibleUIWeb.ErrorJSON)
     |> render(:"404")
   end
+
+  def call(conn, {:error, :unauthorized}) do
+    conn
+    |> put_status(:unauthorized)
+    |> put_view(json: CrucibleUIWeb.ErrorJSON)
+    |> render(:"401")
+  end
+
+  def call(conn, {:error, :invalid_request}) do
+    conn
+    |> put_status(:bad_request)
+    |> put_view(json: CrucibleUIWeb.ErrorJSON)
+    |> render(:"400")
+  end
 end
