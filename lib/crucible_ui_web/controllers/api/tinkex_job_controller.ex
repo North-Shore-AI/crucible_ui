@@ -2,61 +2,87 @@ defmodule CrucibleUIWeb.API.TinkexJobController do
   @moduledoc """
   Thin Phoenix wrapper over `Crucible.Tinkex.API.Router` to expose the public
   REST/WebSocket (SSE) surface.
+
+  Requires the optional `crucible_tinkex` dependency.
   """
 
   use CrucibleUIWeb, :controller
 
-  alias Crucible.Tinkex.API.Router, as: TinkexRouter
-  alias Crucible.Tinkex.API.Stream, as: TinkexStream
+  @tinkex_router Crucible.Tinkex.API.Router
+  @tinkex_stream Crucible.Tinkex.API.Stream
 
   action_fallback CrucibleUIWeb.FallbackController
 
-  def create(conn, params) do
-    case TinkexRouter.submit(%{params: params, headers: conn.req_headers}) do
-      {:ok, resp} ->
-        conn |> put_status(:accepted) |> json(resp)
+  @doc """
+  Check if Tinkex API is available (optional dependency).
+  """
+  def tinkex_available? do
+    Code.ensure_loaded?(@tinkex_router)
+  end
 
-      {:error, reason} ->
-        {:error, reason}
+  def create(conn, params) do
+    unless tinkex_available?() do
+      {:error, :tinkex_not_available}
+    else
+      case apply(@tinkex_router, :submit, [%{params: params, headers: conn.req_headers}]) do
+        {:ok, resp} ->
+          conn |> put_status(:accepted) |> json(resp)
+
+        {:error, reason} ->
+          {:error, reason}
+      end
     end
   end
 
   def show(conn, %{"id" => job_id}) do
-    case TinkexRouter.fetch(%{params: %{}, headers: conn.req_headers}, job_id) do
-      {:ok, resp} -> json(conn, resp)
-      {:error, reason} -> {:error, reason}
+    unless tinkex_available?() do
+      {:error, :tinkex_not_available}
+    else
+      case apply(@tinkex_router, :fetch, [%{params: %{}, headers: conn.req_headers}, job_id]) do
+        {:ok, resp} -> json(conn, resp)
+        {:error, reason} -> {:error, reason}
+      end
     end
   end
 
   def cancel(conn, %{"id" => job_id}) do
-    case TinkexRouter.cancel(%{params: %{}, headers: conn.req_headers}, job_id) do
-      :ok -> conn |> put_status(:accepted) |> json(%{job_id: job_id, status: "canceled"})
-      {:error, reason} -> {:error, reason}
+    unless tinkex_available?() do
+      {:error, :tinkex_not_available}
+    else
+      case apply(@tinkex_router, :cancel, [%{params: %{}, headers: conn.req_headers}, job_id]) do
+        :ok -> conn |> put_status(:accepted) |> json(%{job_id: job_id, status: "canceled"})
+        {:error, reason} -> {:error, reason}
+      end
     end
   end
 
   def stream(conn, %{"id" => job_id} = params) do
-    with {:ok, stream} <- TinkexRouter.stream(%{params: %{}, headers: conn.req_headers}, job_id) do
-      timeout_ms = parse_timeout(params["timeout_ms"] || "5000")
-
-      conn =
-        conn
-        |> put_resp_content_type("text/event-stream")
-        |> put_resp_header("cache-control", "no-cache")
-        |> send_chunked(:ok)
-
-      enum = TinkexStream.to_enum(stream.subscribe, timeout: timeout_ms)
-
-      Enum.reduce_while(enum, conn, fn {jid, event}, conn_acc ->
-        chunk_data = encode_sse(jid, event)
-
-        case chunk(conn_acc, chunk_data) do
-          {:ok, conn_next} -> {:cont, conn_next}
-          {:error, :closed} -> {:halt, conn_acc}
-        end
-      end)
+    unless tinkex_available?() do
+      {:error, :tinkex_not_available}
     else
-      {:error, reason} -> {:error, reason}
+      with {:ok, stream} <-
+             apply(@tinkex_router, :stream, [%{params: %{}, headers: conn.req_headers}, job_id]) do
+        timeout_ms = parse_timeout(params["timeout_ms"] || "5000")
+
+        conn =
+          conn
+          |> put_resp_content_type("text/event-stream")
+          |> put_resp_header("cache-control", "no-cache")
+          |> send_chunked(:ok)
+
+        enum = apply(@tinkex_stream, :to_enum, [stream.subscribe, [timeout: timeout_ms]])
+
+        Enum.reduce_while(enum, conn, fn {jid, event}, conn_acc ->
+          chunk_data = encode_sse(jid, event)
+
+          case chunk(conn_acc, chunk_data) do
+            {:ok, conn_next} -> {:cont, conn_next}
+            {:error, :closed} -> {:halt, conn_acc}
+          end
+        end)
+      else
+        {:error, reason} -> {:error, reason}
+      end
     end
   end
 

@@ -31,4 +31,11 @@ defmodule CrucibleUIWeb.FallbackController do
     |> put_view(json: CrucibleUIWeb.ErrorJSON)
     |> render(:"400")
   end
+
+  def call(conn, {:error, :tinkex_not_available}) do
+    conn
+    |> put_status(:service_unavailable)
+    |> put_view(json: CrucibleUIWeb.ErrorJSON)
+    |> render(:"503")
+  end
 end
