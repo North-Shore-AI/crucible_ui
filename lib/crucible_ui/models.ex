@@ -4,8 +4,9 @@ defmodule CrucibleUI.Models do
   """
 
   import Ecto.Query, warn: false
-  alias CrucibleUI.Repo
+
   alias CrucibleUI.Models.Model
+  alias CrucibleUI.Repo
 
   @doc """
   Returns the list of models.

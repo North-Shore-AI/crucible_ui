@@ -4,23 +4,19 @@ defmodule CrucibleUIWeb.EnsembleLiveTest do
   import Phoenix.LiveViewTest
 
   describe "Index" do
-    test "renders ensemble dashboard", %{conn: conn} do
+    test "renders ensemble page with composable placeholder", %{conn: conn} do
       {:ok, _view, html} = live(conn, ~p"/ensemble")
 
-      assert html =~ "Ensemble Dashboard"
-      assert html =~ "Voting Strategy"
-      assert html =~ "Majority"
+      assert html =~ "Ensemble Voting"
+      assert html =~ "Multi-model voting strategies"
+      assert html =~ "Ensemble voting visualization module"
+      assert html =~ "Host applications can implement custom ensemble views"
     end
 
-    test "selects voting strategy", %{conn: conn} do
-      {:ok, view, _html} = live(conn, ~p"/ensemble")
+    test "shows back navigation", %{conn: conn} do
+      {:ok, _view, html} = live(conn, ~p"/ensemble")
 
-      html =
-        view
-        |> element("button", "Weighted")
-        |> render_click()
-
-      assert html =~ "Weighted"
+      assert html =~ "Back to experiments"
     end
   end
 end

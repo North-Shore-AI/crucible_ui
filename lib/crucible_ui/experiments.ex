@@ -4,8 +4,9 @@ defmodule CrucibleUI.Experiments do
   """
 
   import Ecto.Query, warn: false
-  alias CrucibleUI.Repo
+
   alias CrucibleUI.Experiments.Experiment
+  alias CrucibleUI.Repo
   alias Phoenix.PubSub
 
   @doc """

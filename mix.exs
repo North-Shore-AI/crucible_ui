@@ -1,7 +1,7 @@
 defmodule CrucibleUI.MixProject do
   use Mix.Project
 
-  @version "0.1.0"
+  @version "0.2.0"
   @source_url "https://github.com/North-Shore-AI/crucible_ui"
 
   def project do
@@ -58,7 +58,7 @@ defmodule CrucibleUI.MixProject do
       {:phoenix_ecto, "~> 4.4"},
       {:ecto_sql, "~> 3.10"},
       {:postgrex, ">= 0.0.0"},
-      {:phoenix_html, "~> 3.3"},
+      {:phoenix_html, "~> 4.1"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_view, "~> 0.20.1"},
       {:floki, ">= 0.30.0", only: :test},
@@ -67,7 +67,7 @@ defmodule CrucibleUI.MixProject do
       {:tailwind, "~> 0.2.0", runtime: Mix.env() == :dev},
       {:swoosh, "~> 1.3"},
       {:finch, "~> 0.13"},
-      {:telemetry_metrics, "~> 0.6"},
+      {:telemetry_metrics, "~> 1.0"},
       {:telemetry_poller, "~> 1.0"},
       {:gettext, "~> 0.20"},
       {:jason, "~> 1.2"},
@@ -77,7 +77,7 @@ defmodule CrucibleUI.MixProject do
 
       # Crucible ecosystem
       {:crucible_telemetry, "~> 0.1.0"},
-      {:crucible_framework, "~> 0.1.5", optional: true},
+      {:crucible_framework, "~> 0.5.1", optional: true},
 
       # Development & Testing
       {:ex_doc, "~> 0.31", only: :dev, runtime: false},
@@ -108,9 +108,10 @@ defmodule CrucibleUI.MixProject do
 
   defp description do
     """
-    Phoenix LiveView Dashboard for ML Reliability Research.
-    Real-time monitoring and management for machine learning experiments
-    within the Crucible ML reliability stack.
+    Composable experiment dashboard UI for Phoenix LiveView applications.
+    Host-agnostic LiveView components for ML reliability research with the
+    Crucible framework. Mount complete experiment dashboards in any Phoenix
+    app with a single macro call.
     """
   end
 

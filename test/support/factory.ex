@@ -5,10 +5,10 @@ defmodule CrucibleUI.Factory do
   use ExMachina.Ecto, repo: CrucibleUI.Repo
 
   alias CrucibleUI.Experiments.Experiment
-  alias CrucibleUI.Runs.Run
-  alias CrucibleUI.Telemetry.Event
   alias CrucibleUI.Models.Model
+  alias CrucibleUI.Runs.Run
   alias CrucibleUI.Statistics.Result
+  alias CrucibleUI.Telemetry.Event
 
   def experiment_factory do
     %Experiment{

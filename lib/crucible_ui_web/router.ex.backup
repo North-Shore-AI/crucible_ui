@@ -1,6 +1,5 @@
 defmodule CrucibleUIWeb.Router do
   use CrucibleUIWeb, :router
-  import Crucible.UI.Router
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -15,15 +14,23 @@ defmodule CrucibleUIWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/" do
+  scope "/", CrucibleUIWeb do
     pipe_through :browser
 
-    # Mount Crucible UI using the new composable pattern
-    experiment_routes("/",
-      backend: CrucibleUI.DefaultBackend,
-      root_layout: {CrucibleUIWeb.Layouts, :root},
-      pubsub: CrucibleUI.PubSub
-    )
+    live "/", DashboardLive, :index
+
+    live "/experiments", ExperimentLive.Index, :index
+    live "/experiments/new", ExperimentLive.Index, :new
+    live "/experiments/:id", ExperimentLive.Show, :show
+    live "/experiments/:id/edit", ExperimentLive.Show, :edit
+
+    live "/runs/:id", RunLive.Show, :show
+
+    live "/statistics", StatisticsLive, :index
+    live "/statistics/:id", StatisticsLive, :show
+
+    live "/ensemble", EnsembleLive, :index
+    live "/hedging", HedgingLive, :index
   end
 
   scope "/api", CrucibleUIWeb.API do

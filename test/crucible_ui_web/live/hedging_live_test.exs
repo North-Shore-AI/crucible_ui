@@ -4,23 +4,19 @@ defmodule CrucibleUIWeb.HedgingLiveTest do
   import Phoenix.LiveViewTest
 
   describe "Index" do
-    test "renders hedging metrics", %{conn: conn} do
+    test "renders hedging page with composable placeholder", %{conn: conn} do
       {:ok, _view, html} = live(conn, ~p"/hedging")
 
-      assert html =~ "Hedging Metrics"
-      assert html =~ "P50 Latency"
-      assert html =~ "P99 Latency"
+      assert html =~ "Request Hedging"
+      assert html =~ "Adaptive hedging strategies"
+      assert html =~ "Request hedging visualization module"
+      assert html =~ "Host applications can implement custom hedging views"
     end
 
-    test "selects hedging strategy", %{conn: conn} do
-      {:ok, view, _html} = live(conn, ~p"/hedging")
+    test "shows back navigation", %{conn: conn} do
+      {:ok, _view, html} = live(conn, ~p"/hedging")
 
-      html =
-        view
-        |> element("button", "Adaptive")
-        |> render_click()
-
-      assert html =~ "Adaptive"
+      assert html =~ "Back to experiments"
     end
   end
 end
